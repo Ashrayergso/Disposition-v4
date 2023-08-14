@@ -1,0 +1,71 @@
+```html
+{% extends 'app_name/base.html' %}
+
+{% block content %}
+  <h2>Ship Detail</h2>
+  <div class="ship-detail">
+    <p>Name: {{ ship.name }}</p>
+    <p>Code: {{ ship.code }}</p>
+    <p>Status: {{ ship.get_status_display }}</p>
+    <p>Crew Allowance: {{ ship.crew_allowance.allowance_count }}</p>
+  </div>
+
+  <h3>Assigned Crew</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Status</th>
+        <th>Contract Start Date</th>
+        <th>Contract End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for assignment in ship.assignment_set.all %}
+        <tr>
+          <td>{{ assignment.crew_member.name }}</td>
+          <td>{{ assignment.crew_member.position.position_name }}</td>
+          <td>{{ assignment.crew_member.get_status_display }}</td>
+          <td>{{ assignment.crew_member.contract_start_date }}</td>
+          <td>{{ assignment.crew_member.contract_end_date }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No crew assigned.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Sailing Schedule</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Port Name</th>
+        <th>Port Code</th>
+        <th>Arrival Date</th>
+        <th>Departure Date</th>
+        <th>Voyage Type</th>
+        <th>Port Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for schedule in ship.shipsailingschedule_set.all %}
+        <tr>
+          <td>{{ schedule.port_name }}</td>
+          <td>{{ schedule.port_code }}</td>
+          <td>{{ schedule.arrival_date }}</td>
+          <td>{{ schedule.departure_date }}</td>
+          <td>{{ schedule.get_voyage_type_display }}</td>
+          <td>{{ schedule.get_port_type_display }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No sailing schedule available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+```

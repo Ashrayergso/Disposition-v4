@@ -1,0 +1,39 @@
+```html
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Crew List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Status</th>
+        <th>Contract Start Date</th>
+        <th>Contract End Date</th>
+        <th>Certificates</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crew in crew_list %}
+        <tr>
+          <td>{{ crew.name }}</td>
+          <td>{{ crew.position.position_name }}</td>
+          <td>{{ crew.status }}</td>
+          <td>{{ crew.contract_start_date }}</td>
+          <td>{{ crew.contract_end_date }}</td>
+          <td>
+            {% for certificate in crew.certificates.all %}
+              {{ certificate.certificate_name }}
+            {% endfor %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No crew found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+```
